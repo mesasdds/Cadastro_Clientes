@@ -11,6 +11,5 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Image
 import webbrowser
 import os
-#from PIL import ImageTk, Image
 import base64
-from tkcalendar import Calendar, DateEntry
+import random

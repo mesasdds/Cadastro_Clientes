@@ -3,6 +3,7 @@ from validEntry import Validadores
 from reports import Relatorios
 from funcionalidades import Funcs
 
+
 janela = tix.Tk()
 
 class Application(Funcs, Relatorios, Validadores):
@@ -35,13 +36,10 @@ class Application(Funcs, Relatorios, Validadores):
         self.abas = ttk.Notebook(self.frame_1)
 
         self.aba1 = Frame(self.abas)
-        self.aba2 = Frame(self.abas)
 
         self.aba1.configure(background="#dfe3ee")
-        self.aba2.configure(background="lightgray")
 
-        self.abas.add(self.aba1, text="Aba 1")
-        self.abas.add(self.aba2, text="Aba 2")
+        self.abas.add(self.aba1, text="Clientes")
 
         self.abas.place(relx=0, rely=0, relheight=0.98, relwidth=0.98)
 
@@ -88,7 +86,7 @@ class Application(Funcs, Relatorios, Validadores):
         self.lb_nome.place(relx=0.05, rely=0.35, relwidth=0.1, relheight=0.15)
 
         self.nome_entry = Entry(self.aba1)
-        self.nome_entry.place(relx=0.05, rely=0.50, relwidth=0.8)
+        self.nome_entry.place(relx=0.05, rely=0.50, relwidth=0.85)
 
 #telefone
         self.lb_telefone = Label(self.aba1, text="Telefone", bg='#dfe3ee', fg='#187db2')
@@ -103,37 +101,37 @@ class Application(Funcs, Relatorios, Validadores):
         self.cidade_entry = Entry(self.aba1)
         self.cidade_entry.place(relx=0.5, rely=0.7, relwidth=0.4)
 
+#cpf
+        self.lb_cpf = Label(self.aba1, text="CPF", bg='#dfe3ee', fg='#187db2')
+        self.lb_cpf.place(relx=0.05, rely=0.8)
 
-        self.Tipvar = StringVar()
-        self.TipV = ("Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viuvo(a)", "Fudido(a)" )
-        self.Tipvar.set("Solteiro(a)")
+        self.cpf_entry = Entry(self.aba1)
+        self.cpf_entry.place(relx=0.05, rely=0.9, relwidth=0.4)
+#idade
+        self.lb_idade = Label(self.aba1, text="Idade", bg='#dfe3ee', fg='#187db2')
+        self.lb_idade.place(relx=0.5, rely=0.8)
 
-        self.popupMenu = OptionMenu(self.aba2, self.Tipvar, *self.TipV)
-        self.popupMenu.place(relx=0.1, rely=0.1, relwidth=0.2, relheight=0.2)
-
-        self.estado_civil = self.Tipvar.get()
-        print(self.estado_civil)
-
-        #calendario
-        self.bt_calendario = Button(self.aba2, text="Data", command=self.calendario)
-        self.bt_calendario.place(relx=0.5, rely=0.02)
-        self.entry_data = Entry(self.aba2, width=10)
-        self.entry_data.place(relx=0.5, rely=0.2)
-
+        self.idade_entry = Entry(self.aba1)
+        self.idade_entry.place(relx=0.5, rely=0.9, relwidth=0.4)
 
     def lista_frame2(self):
-        self.listaCli = ttk.Treeview(self.frame_2, height= 3, columns=("col1", "col2", "col3", "col4"))
+        self.listaCli = ttk.Treeview(self.frame_2, height= 5, columns=("col1", "col2", "col3", "col4", "col5", "col6"))
         self.listaCli.heading("#0", text="")
         self.listaCli.heading("#1", text="Codigo")
         self.listaCli.heading("#2", text="Nome")
         self.listaCli.heading("#3", text="Telefone")
         self.listaCli.heading("#4", text="Cidade")
+        self.listaCli.heading("#5", text="CPF")
+        self.listaCli.heading("#6", text="Idade")
+
 
         self.listaCli.column("#0", width=1)
         self.listaCli.column("#1", width=50)
-        self.listaCli.column("#2", width=200)
-        self.listaCli.column("#3", width=125)
-        self.listaCli.column("#4", width=125)
+        self.listaCli.column("#2", width=180)
+        self.listaCli.column("#3", width=100)
+        self.listaCli.column("#4", width=90)
+        self.listaCli.column("#5", width=100)
+        self.listaCli.column("#6", width=90)
 
         self.listaCli.place(relx=0.01, rely=0.1, relwidth=0.95, relheight=0.85)
 
@@ -154,22 +152,62 @@ class Application(Funcs, Relatorios, Validadores):
         menubar.add_cascade(label="Relatorios", menu=filemenu2)
 
 
+        filemenu.add_command(label="Dados Cliente", command=self.janela2)
         filemenu.add_command(label="Sair", command=Quit)
-        filemenu.add_command(label="Janela 2", command=self.janela2)
+
         filemenu2.add_command(label="Limpar", command=self.limpar_tela)
         filemenu2.add_command(label = "Ficha do Cliente", command=self.geraRelatCliente)
     def janela2(self):
         self.janela2 = Toplevel()
         self.janela2.title("Cadastro de Clientes")
         self.janela2.configure(background="#1e3743")
-        self.janela2.geometry("400x200+200+220")
+        self.janela2.geometry("700x500+200+220")
         self.janela2.resizable(False, False)
         self.janela2.transient(self.janela)
         self.janela2.focus_force()
         self.janela2.grab_set()
+        self.frames_tela2()
+        self.MaisInfos()
+
+    def frames_tela2(self):
+        self.frame_01 = Frame(self.janela2, bg='#dfe3ee', highlightbackground='#759fe6', highlightthickness=6)
+        self.frame_01.place(relx=0.02, rely=0.02, relwidth=0.96, relheight=0.46)
+
+        self.frame_02 = Frame(self.janela2, bg='#dfe3ee', highlightbackground='#759fe6', highlightthickness=6)
+        self.frame_02.place(relx=0.02, rely=0.5, relwidth=0.96, relheight=0.46)
+
     def validaEntradas(self):
         self.vcmd2 = (self.janela.register(self.validate_entry2), "%P")
 
+    def MaisInfos(self):
+        self.dado_nome = Label(self.frame_01, text=self.nome_entry.get(), bd=2, bg='#107db2', fg='white', font=('verdana', 8, 'bold'))
+        self.dado_nome.place(y=10, x=200)
 
+        self.nome_info = Label(self.frame_01, text="Nome do Cliente: ", bd=2, bg='#dfe3ee', fg='black',font=('verdana', 8, 'bold'))
+        self.nome_info.place(y=10, x=10)
+
+        self.dado_telefone = Label(self.frame_01, text=self.telefone_entry.get(), bd=2, bg='#107db2', fg='white',font=('verdana', 8, 'bold'))
+        self.dado_telefone.place(y=30, x=200)
+
+        self.telefone_info = Label(self.frame_01, text="Telefone: ", bd=2, bg='#dfe3ee', fg='black',font=('verdana', 8, 'bold'))
+        self.telefone_info.place(y=30, x=10)
+
+        self.dado_cidade = Label(self.frame_01, text=self.cidade_entry.get(), bd=2, bg='#107db2', fg='white',font=('verdana', 8, 'bold'))
+        self.dado_cidade.place(y=50, x=200)
+
+        self.cidade_info = Label(self.frame_01, text="Cidade: ", bd=2, bg='#dfe3ee', fg='black',font=('verdana', 8, 'bold'))
+        self.cidade_info.place(y=50, x=10)
+
+        self.dado_cpf = Label(self.frame_01, text=self.cpf_entry.get(), bd=2, bg='#107db2', fg='white',font=('verdana', 8, 'bold'))
+        self.dado_cpf.place(y=70, x=200)
+
+        self.cpf_info = Label(self.frame_01, text="CPF: ", bd=2, bg='#dfe3ee', fg='black',font=('verdana', 8, 'bold'))
+        self.cpf_info.place(y=70, x=10)
+
+        self.dado_idade = Label(self.frame_01, text=self.idade_entry.get(), bd=2, bg='#107db2', fg='white',font=('verdana', 8, 'bold'))
+        self.dado_idade.place(y=90, x=200)
+
+        self.idade_info = Label(self.frame_01, text="Idade: ", bd=2, bg='#dfe3ee', fg='black',font=('verdana', 8, 'bold'))
+        self.idade_info.place(y=90, x=10)
 
 Application()
